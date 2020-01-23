@@ -671,7 +671,8 @@
 #' the standard error into account.
 #' @param user_numVar parameter to modify the choosen optimal number of variables.
 #' If it is used, it is the final number of variables used in the method.
-#'
+#' @param thread parameter for number of cores to be used by the function.
+#' Defaults to all the cores available - 1.
 #'
 #' @return A \code{list} with the following objects:
 #'
@@ -717,7 +718,8 @@
                         covar = NULL, col = c("steelblue1", "tomato1"),
                         col2 = c("darkgreen", "steelblue4","tan1"),
                         logit.acc = "AUC", maxV = 20, zero.rep = "bayes",
-                        opt.cri = "1se", user_numVar = NULL){
+                        opt.cri = "1se", user_numVar = NULL,
+                        thread = parallel::detectCores() - 2){
 
     # Load package plyr
     suppressMessages(library(plyr))
@@ -911,7 +913,7 @@
     suppressMessages(library(foreach))
     suppressMessages(library(doParallel))
     # Number of cores of the computer but one
-    no_cores <- detectCores() - 2
+    no_cores <- thread
     # Register the number of cores
     registerDoParallel(no_cores)
 
